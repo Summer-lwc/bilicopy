@@ -7,29 +7,30 @@
             <div class="left-content">
                 <div class="title">
                     <h4>2020的第一个日出</h4>
-                    <div>
-                        <span>生活 > 日常</span>
-                        <span>2020-01-01 22:36:57</span>
-                        <span> 5播放 · 0弹幕</span>
-                        <span>🚫 未经作者授权，禁止转载</span>
+                    <div class="video-data">
+                        <span class="a-crumbs">生活 > 日常</span>
+                        <span class="time">2020-01-01 22:36:57</span>
+                        <span class="play-data"> 5播放 · 0弹幕</span>
                     </div>
                 </div>
-                <video-player class="video-player vjs-custom-skin"
-                      ref="videoPlayer"
-                      :playsinline="true"
-                      :options="playerOptions">
-                </video-player>
-                <div>
-                    <div>
-                        <i class="el-icon-message-solid"></i>
-                        <i class="el-icon-s-finance"></i>
-                        <i class="el-icon-star-on"></i>
-                        <i class="el-icon-s-promotion"></i>
+                <div class="player">
+                        <video-player class="video-player vjs-custom-skin"
+                        ref="videoPlayer"
+                        :playsinline="true"
+                        :options="playerOptions">
+                    </video-player>
+                </div>
+                <div class="interact">
+                    <div class="interact-btn" :v-model="interact">
+                        <span><i class="el-icon-message-solid"></i>{{interact[0] > 0 ? interact[0]:'点赞'}}</span>
+                        <span><i class="el-icon-s-finance"></i>{{interact[1] > 0 ? interact[1]:'投币'}}</span>
+                        <span><i class="el-icon-star-on"></i>{{interact[2] > 0 ? interact[2]:'收藏'}}</span>
+                        <span><i class="el-icon-s-promotion"></i>{{interact[3] > 0 ? interact[3]:'分享'}}</span>
                     </div>
                     <span>稿件投诉</span>
                 </div>
                 <div class="des">
-                    <p></p>
+                    <p>向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~</p>
                     <span>展开更多</span>
                 </div>
                 <div class="addTags">
@@ -52,67 +53,59 @@
                     </el-input>
                     <el-button v-else class="button-new-tag" size="mini" @click="showInput">+ New Tag</el-button>
                 </div>
-                <img src="" alt="" class="ad">
+                <img width="638px" src="../assets/ad.jpg" alt="" class="ad">
                 <div class="comments">
                     <h3>评论</h3>
-                    <div>
-                        <span>按热度排序</span>
-                        <span>按时间排序</span>
+                    <div class="title-tags">
+                        <span :class="{'active':titleTags}" @click="titleTags = true">按热度排序</span>
+                        <span :class="{'active':!titleTags}"  @click="titleTags = false">按时间排序</span>
                     </div>
                     <div class="sendComment">
-                        <img src="" alt="">
+                        <img src="../assets/user.jpg" alt="">
                         <textarea cols="80" name="msg" rows="5" placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。"></textarea>
                         <button>发表评论</button>
                         <span>😀表情</span>
                     </div>
-                    <ul>
+                    <ul class="commentsList">
                         <li>
-                            <img src="" alt="">
-                            <h5>暖色的梅子酱</h5>
-                            <p>我已经对这个live中毒了…满脑子都是这个live鲜艳色彩的画面 这首歌轻快愉悦的旋律 和这个穿白踢的青年的笑颜QAQ</p>
-                            <span>来自IOS客户端</span>
-                            <span>2017-02-12 03：27</span>
-                            <span>👍</span>
-                            <span>👎</span>
-                            <span>回复</span>
+                            <img src="../assets/user.jpg" alt="">
+                            <div>
+                                <h5>暖色的梅子酱</h5>
+                                <p>我已经对这个live中毒了…满脑子都是这个live鲜艳色彩的画面 这首歌轻快愉悦的旋律 和这个穿白踢的青年的笑颜QAQ</p>
+                                <span>来自IOS客户端</span>
+                                <span>2017-02-12 03：27</span>
+                                <span>👍</span>
+                                <span>👎</span>
+                                <span>回复</span>
+                            </div>
                         </li>
                     </ul>
                 </div>
             </div>
             <div class="right-content">
                 <div class="upInfo">
-                    <img src="" alt="">
-                    <span><i class="el-icon-message"></i>发消息</span>
-                    <span></span>
-                    <span>+  关注</span>
+                    <img src="../assets/user.jpg" alt="">
+                    <span class="upname">超超是小超人5 </span>
+                    <span class="send"><i class="el-icon-message"></i>发消息</span>
+                    <span class="follow"><i class="el-icon-plus"></i>  关注</span>
                 </div>
                 <div class="liveCommenting">
                     <div class="title">
                         <span>弹幕列表</span>
-                        <span>收起</span>
+                        <span>展开</span>
                     </div>
-                    <div class="head">
-                        <span>时间</span>
-                        <span>弹幕内容</span>
-                        <span>发送时间</span>
-                    </div>
-                    <ul>
-                        <li>
-                            <span class="time">00:01</span>
-                            <span class="content">好清爽的少年啊</span>
-                            <span class="sendtime">03-02 22:10</span>
-                        </li>
-                    </ul>
-                    <span>查看历史弹幕</span>
                 </div>
+                <img src="../assets/ad1.jpg" alt="" class="ad">
                 <div class="recommend">
-                    <span>相关推荐</span>
+                    <div>相关推荐</div>
                     <ul>
                         <li>
-                            <img src="" alt="">
-                            <h5>【flumpool】</h5>
-                            <p>超超是小超人</p>
-                            <p>3187播放 · 30弹幕</p>
+                            <img src="../assets/ad1.jpg" alt="">
+                            <div class="video-data">
+                                <h5>【flumpool】【flumpool】【flumpool】【flumpool】【flumpool】【flumpool】【flumpool】【flumpool】【flumpool】</h5>
+                                <p>超超是小超人</p>
+                                <p>3187播放 · 30弹幕</p>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -128,9 +121,11 @@
         components:{biliNav},
         data() {
             return {
-                dynamicTags: ['标签一', '标签二', '标签三'],
+                dynamicTags: ['延时摄影', '自制', '日出'],
                 inputVisible: false,
                 inputValue: '',
+                titleTags: true,
+                interact: [0,4,0,0],
                 playerOptions: {
                     //播放速度
                     playbackRates: [0.5, 1.0, 1.5, 2.0], 
@@ -199,59 +194,364 @@
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
     }
     main{
-        width: 980px;
+        width: 988px;
         margin: 20px auto;
         display: flex;
         justify-content: space-between;
         .left-content{
-            .video-player{
-                display: inline-block;
-                width: 624px;
-                height: 351px;
-                text-align: center;
-                line-height: 100px;
-                border: 1px solid transparent;
-                border-radius: 4px;
-                overflow: hidden;
-                background: #fff;
+            width: 638px;
+            .title{
+                h4{
+                    margin: 0  0 12px;
+                    font-size: 18px;
+                    font-weight: 500;
+                    color: #212121;
+                    line-height: 26px;
+                    height: 26px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+                .video-data{
+                    font-size: 12px;
+                    color: #999;
+                    display: flex;
+                    width: 250px;
+                    flex-wrap: wrap;
+                    span{
+                        margin: 0  16px 14px 0;
+                    }
+                }
+            }
+            .player{
+                width: 638px;
+                height: 447px;
+                background-color: black;
                 position: relative;
-                box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
-                margin-right: 4px;
+                .video-player{
+                    display: inline-block;
+                    width: 624px;
+                    height: 351px;
+                    text-align: center;
+                    border-radius: 4px;
+                    overflow: hidden;
+                    background: #fff;
+                    position: relative;
+                    box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+                    margin: 48px 7px;
+                }
             }
-            .video-player:hover{
-                display: block;
+            .interact{
+                display: flex;
+                justify-content: space-between;
+                padding-right: 10px;
+                margin-top: 16px;
+                padding-bottom: 12px;
+                border-bottom: 1px solid #e5e9f0;
+                .interact-btn{
+                    span{
+                        display: inline-block;
+                        font-size: 14px;
+                        margin-right: 10px;
+                        line-height: 30px;
+                        height: 30px;
+                        :hover{
+                            color: #00a1d6;
+                            cursor: pointer;
+                        }
+                        i{
+                            height: 30px;
+                            font-size: 30px;
+                            margin-left: 30px;
+                            color: #757575;
+                            vertical-align: middle;
+                            &:first-of-type{
+                                margin-left: 5px;
+                            }
+                        }
+                    }
+                }
+                span{
+                    font-size: 12px;
+                    line-height: 30px;
+                }
+            }
+            .des{
+                white-space: pre-line;
+                transition: all .3s;
+                font-size: 12px;
+                color: #212121;
+                letter-spacing: 0;
+                line-height: 18px;
+                height: 80px;
+                width: 573px;
+                margin: 16px 0;
+                p{
+                    margin-bottom: 10px;
+                    height: 50px;
+                    overflow: hidden;
+
+                }
+                span:hover{
+                    color: #00a1d6;
+                    cursor: pointer;
+                }
+            }
+            .addTags{
+                padding-bottom: 16px;
+                border-bottom: 1px solid #e5e9f0;
+                .el-tag{
+                    background: #f4f4f4;
+                    border-radius: 100px;
+                    padding: 0 8px;
+                    position: relative;
+                    height: 28px;
+                    line-height: 28px;
+                    transition: all .3s;
+                    font-size: 12px;
+                    border: 1px solid #f4f4f4;
+                    margin-right: 10px;
+                    color: #000;
+                    &:hover{
+                        color: #00a1d6;
+                        cursor: pointer;
+                    }
+                }
+                .button-new-tag {
+                    padding: 0 5px;
+                    margin-left: 6px;
+                    height: 28px;
+                    line-height: 28px;
+                    padding-bottom: 0;
+                    vertical-align: middle;
+                }
+                .input-new-tag {
+                    width: 90px;
+                    margin-left: 6px;
+                    vertical-align: middle;
+                }
+            }
+            .comments{
+                img{
+                    width: 48px;
+                    height: 48px;
+                    border-radius: 50%;
+                    margin-right: 32px;
+                }
+                h3{
+                    font-weight: normal;
+                }
+                .title-tags {
+                    border-bottom: 1px solid #e5e9f0;
+                    padding: 8px 0;
+                    span{
+                        cursor: pointer;
+                        margin-right: 14px;
+                        padding: 8px 0;
+                        &.active{
+                            border-bottom: 1px solid #00a1d6;
+                            color: #00a1d6;
+                        }
+                    }
+                }
+                .sendComment{
+                    padding: 30px 0;
+                    display: flex;
+                    flex-wrap: wrap;
+                    align-items: center;
+                    border-bottom: 1px solid #e5e9f0;
+                    textarea{
+                        font-size: 12px;
+                        display: inline-block;
+                        box-sizing: border-box;
+                        background-color: #f4f5f7;
+                        border: 1px solid #e5e9ef;
+                        overflow: auto;
+                        border-radius: 4px;
+                        color: #555;
+                        width: 460px;
+                        height: 65px;
+                        transition: 0s;
+                        padding: 5px 10px;
+                        line-height: normal;
+                        margin-right: 20px;
+                        resize: none;
+                    }
+                    button{
+                        width: 70px;
+                        height: 64px;
+                        padding: 4px 15px;
+                        font-size: 14px;
+                        color: #fff;
+                        border-radius: 4px;
+                        text-align: center;
+                        min-width: 60px;
+                        cursor: pointer;
+                        background-color: #00a1d6;
+                        border: 1px solid #00a1d6;
+                        transition: .1s;
+                        user-select: none;
+                        outline: none;
+                    }
+                    >span{
+                        margin-left: 80px;
+                        padding: 0;
+                        width: 66px;
+                        height: 24px;
+                        color: #99a2aa;
+                        border: 1px solid #e5e9ef;
+                        border-radius: 4px;
+                        font-size: 12px;
+                        text-align: center;
+                        line-height: 23px;
+                        margin-top: 3px;
+                        cursor: pointer;
+                        display: inline-block;
+                    }
+                }
+                .commentsList{
+                    li{
+                        display: flex;
+                        align-items: flex-start;
+                        padding: 16px 0;
+                        border-bottom: 1px solid #e5e9f0;
+                        h5{
+                            margin: 0;
+                            color: #6d757a;
+                            font-weight: normal;
+                        }
+                        p{
+                            line-height: 20px;
+                            padding: 2px 0;
+                            font-size: 14px;
+                            text-shadow: none;
+                            overflow: hidden;
+                            word-wrap: break-word;
+                            word-break: break-word;
+                        }
+                        span{
+                            margin-right: 20px;
+                            color: #99a2aa;
+                            line-height: 26px;
+                            font-size: 12px;
+                        }
+                    }
+                }
             }
         }
-        .el-tag{
-            margin: 0 6px 8px 0;
-            background: #f4f4f4;
-            border-radius: 100px;
-            padding: 0 8px;
-            position: relative;
-            height: 22px;
-            line-height: 22px;
-            transition: all .3s;
-            font-size: 12px;
-            border: 1px solid #f4f4f4;
-            margin-left: 10px;
-            color: #000;
-            &:hover{
-                color: #00a1d6;
-                cursor: pointer;
+        .right-content{
+            width: 320px;
+            .upInfo{
+                margin-bottom: 15px;
+                img{
+                    width: 48px;
+                    height: 48px;
+                    border-radius: 50%;
+                    margin-right: 15px;
+                }
+                .upname{
+                    font-size: 14px;
+                    color: #212121;
+                    font-weight: 500;
+                    display: inline-block;
+                    max-width: 180px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    vertical-align: top;
+                    padding-top: 5px;
+                }
+                .send{
+                    margin-left: 12px;
+                    font-size: 12px;
+                    color: #505050;
+                    display: inline-block;
+                    vertical-align: top;
+                    padding-top: 6px;
+                }
+                .follow{
+                    display: block;
+                    background: #00a1d6;
+                    color: #fff;
+                    width: 156px;
+                    height: 30px;
+                    line-height: 30px;
+                    text-align: center;
+                    margin-left: 64px;
+                    border-radius: 2px;
+                    cursor: pointer;
+                }
             }
-        }
-        .button-new-tag {
-            padding: 0 5px;
-            margin-left: 6px;
-            height: 22px;
-            line-height: 22px;
-            padding-bottom: 0;
-            vertical-align: middle;
-        }
-        .input-new-tag {
-            width: 90px;
-            margin-left: 6px;
-            vertical-align: middle;
+            .liveCommenting{
+                .title{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    position: relative;
+                    height: 46px;
+                    width: 100%;
+                    background: #f4f4f4;
+                    color: #222;
+                    border-radius: 2px;
+                    -webkit-box-sizing: border-box;
+                    box-sizing: border-box;
+                    cursor: pointer;
+                    padding: 0 16px;
+                    span{
+                        &:first-of-type{
+                            font-size: 16px;
+                            color: #222;
+                        }
+                        &:last-of-type{
+                            font-size: 12px;
+                        }
+                    }
+                }
+
+            }
+            .ad{
+                width: 320px;
+                height: 182px;
+                margin: 24px 0;
+            }
+            .recommend{
+                >div{
+                    font-size: 16px;
+                    color: #222;
+                    margin-bottom: 6px;
+                }
+                li{
+                    width: 320px;
+                    height: 80px;
+                    padding: 6px 0;
+                    display: flex;
+                    img{
+                        width: 141px;
+                        height: 80px;
+                    }
+                    .video-data{
+                        margin-left: 10px;
+                        h5{
+                            font-size: 14px;
+                            font-weight: 500;
+                            height: 36px;
+                            line-height: 18px;
+                            margin-bottom: 6px;
+                            word-break: break-all;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            margin: 0;
+                        }
+                        p{
+                            color: #999;
+                            font-size: 12px;
+                            &:first-of-type{
+                                margin: 6px 0 4px 0;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 </style>

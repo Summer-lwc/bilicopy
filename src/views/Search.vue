@@ -6,7 +6,7 @@
         <main>
             <div class="searchBar">
                 <img src="../assets/search_logo.png" alt="">
-                <input id="search-keyword" type="text" maxlength="100" autocomplete="off">
+                <input id="search-keyword" type="text" maxlength="100" autocomplete="off" :v-model="input" :placeholder="input">
                 <button class="searchBtn"><i class="el-icon-search"></i>搜索</button>
             </div>
             <menu>
@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <ul :class="listStyle">
-                    <li>
+                    <li @click="videoPlayer(id)">
                         <img src="../assets/search_logo.png" alt="">
                         <span class="time">01:55</span>
                         <div class="details">
@@ -77,6 +77,7 @@
                 activeitems: [0,0,0],
                 sortClass: 'sort',
                 listStyle:'grid',
+                input: this.$route.query.keyword,
                 lists: [['综合排序','点击最多','最新发布','最多弹幕','最多收藏'],['全部时长','10分钟以下','10~30分钟','30-60分钟','60分钟以上'],['全部分区','动画','番剧','国创','音乐','舞蹈','游戏','知识','数码','生活','鬼畜','时尚','资讯','娱乐','影视','纪录片','电影','电视剧','收起']],
             }
         },
@@ -100,6 +101,9 @@
             },
             changeListStyle(str){
                 this.listStyle = str;
+            },
+            videoPlayer(id){
+                this.$router.push({path: '/video', query:{id}});
             }
         }
     }
@@ -304,6 +308,7 @@
                             height: 120px;
                             margin-left: 25px;
                             h5{
+                                line-height: 26px;
                                 margin: 5px 0 5px 0;
                                 color: #222;
                                 max-width: 592px;
@@ -315,7 +320,7 @@
                                     color: #00A1D6;
                                 }
                                 span{
-                                    padding: 4px 6px;
+                                    padding: 3px 6px;
                                     border: 1px solid #e5e9ef;
                                     border-radius: 15px; margin-right: 10px;
                                     font-size: 12px;

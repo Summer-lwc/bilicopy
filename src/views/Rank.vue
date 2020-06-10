@@ -580,6 +580,7 @@
         color: #222;
         transition: .3s;
         display: inline-block;
+        margin: 8px 0;
     }
     .info div p{
         margin-top: 20px;

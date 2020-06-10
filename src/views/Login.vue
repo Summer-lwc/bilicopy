@@ -20,13 +20,13 @@
                 </div>
                 <div id="line"></div>
                 <div id="login">
-                    <span class="selected">密码登录</span>
-                    <span>短信登陆</span>
-                    <div class="box selected-box">
+                    <span :class="login ? 'selected' : ''" @click="login = true">密码登录</span>
+                    <span :class="!login ? 'selected' : ''" @click="login = false">短信登陆</span>
+                    <div class="box" :class="login ? 'selected-box' : ''">
                         <input type="text" placeholder="你的手机号/邮箱">
                         <input type="text" placeholder="密码">
                     </div>
-                    <div class="box">
+                    <div class="box" :class="!login ? 'selected-box' : ''">
                         <input type="text" placeholder="填写常用手机号">
                         <input type="text" placeholder="请输入短信验证码">
                         <button>获取验证码</button>
@@ -37,7 +37,7 @@
                         <span>无法验证？  忘记密码？</span>
                     </div>
                     <div id="submit">
-                        <a href="homePage.html"><input type="submit" value="登陆" ></a>
+                        <router-link to="/"><a href="#"><input type="submit" value="登陆" ></a></router-link>
                         <input type="submit" value="注册">
                         <p>微博账号登陆   QQ账号登陆</p>
                     </div>
@@ -54,7 +54,12 @@
     import bilifooter from '../components/bilifooter'
     export default {
         name:'login',
-        components:{biliNav,bilifooter}
+        components:{biliNav,bilifooter},
+        data() {
+            return {
+                login: true
+            }
+        },
     }
 
 </script>
@@ -209,7 +214,7 @@
         transition: all .3s;
         margin:20px 12px;
     }
-    main #submit>a>input{
+    main #submit a>input{
         border: 1px solid #0381aa;
         color: #fff;
         background-color: #00a7de;

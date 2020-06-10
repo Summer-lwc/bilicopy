@@ -19,20 +19,21 @@
             </li>
         </ul>
         <el-input placeholder="累了就看一下鬼畜" v-model="input3" class="input-with-select"> 
-            <el-button slot="append" icon="el-icon-search"></el-button>
+            <el-button slot="append" icon="el-icon-search" @click="search(input3)"></el-button>
         </el-input>
         <ul>
-            <li><img  id="userImg" src="../assets/user.jpg" alt="头像"></li>
-            <li><a href="#">大会员</a></li>
-            <li><a href="#">消息</a></li>
-            <li><a href="#">动态</a></li>
-            <li><a href="#">稍后再看</a></li>
-            <li><a href="#">收藏</a></li>
-            <li><a href="#">历史</a></li>
-            <li><a href="#">创作中心</a></li>
+            <li><img  id="userImg" src="../assets/akari.jpg" alt="头像"></li>
+            <li v-if="isLogin"><a href="#">大会员</a></li>
+            <li v-if="isLogin"><a href="#">消息</a></li>
+            <li v-if="isLogin"><a href="#">动态</a></li>
+            <li v-if="isLogin"><a href="#">稍后再看</a></li>
+            <li v-if="isLogin"><a href="#">收藏</a></li>
+            <li v-if="isLogin"><a href="#">历史</a></li>
+            <li v-if="isLogin"><a href="#">创作中心</a></li>
+            <li v-if="!isLogin"><router-link to="/login"><a href="#">登陆</a></router-link></li>
+            <li v-if="!isLogin"><router-link to="/login"><a href="#">注册</a></router-link></li>
             <li><el-button  id="upload">投稿</el-button></li>
         </ul>
-        <slot name='foot'></slot>
     </div>
 </template>
 
@@ -41,9 +42,22 @@
         name:'bilinav',
         data() {
             return {
-                input3:''
+                input3:'',
+                isLogin: false
             }
         },
+        methods:{
+            search(keyword){
+                console.log(keyword);
+                if(keyword){
+                    this.$router.push({
+                        path: '/search',
+                    query: {
+                        keyword
+                    }});
+                }
+            }
+        }
     }
 </script>
 
@@ -111,6 +125,9 @@
                 vertical-align: middle;
             }
         }
+    }
+    .el-input{
+        max-width: 500px;
     }
     .el-input__inner{
         height: 35px;

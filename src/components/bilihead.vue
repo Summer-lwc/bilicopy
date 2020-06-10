@@ -10,9 +10,9 @@
         <div class="bili-wrap">
             <ul>
                 <li>
-                    <a href="homePage.html"><div><i class="icon el-icon-s-home"></i><p>首页</p></div></a>
-                    <a href="forum.html"><div><i class="icon el-icon-orange"></i><p>动态</p></div></a>
-                    <a href="rank.html"><div><i class="icon el-icon-s-data"></i><p>排行榜</p></div></a>
+                    <router-link to="/"><a href="#"><div><i class="icon el-icon-s-home"></i><p>首页</p></div></a></router-link>
+                    <router-link to="/forum"><a href="#"><div><i class="icon el-icon-orange"></i><p>动态</p></div></a></router-link>
+                    <router-link to="/rank"><a href="#"><div><i class="icon el-icon-s-data"></i><p>排行榜</p></div></a></router-link>
                 </li>
                 <span class="line"></span>
                 <li>

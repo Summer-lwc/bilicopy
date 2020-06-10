@@ -51,16 +51,16 @@
                 </div>
                 <div id="nav">
                     <ul>
-                        <li class="selected">全部</li>
-                        <li>投稿视频</li>
-                        <li>追番</li>
-                        <li>小视频</li>
-                        <li>图片</li>
-                        <li>专栏</li>
+                        <li :class="navId == 1? 'selected' : ''" @click="navId = 1">全部</li>
+                        <li :class="navId == 2? 'selected' : ''" @click="navId = 2">投稿视频</li>
+                        <li :class="navId == 3? 'selected' : ''" @click="navId = 3">追番</li>
+                        <li :class="navId == 4? 'selected' : ''" @click="navId = 4">小视频</li>
+                        <li :class="navId == 5? 'selected' : ''" @click="navId = 5">图片</li>
+                        <li :class="navId == 6? 'selected' : ''" @click="navId = 6">专栏</li>
                     </ul>
                 </div>
                 <ul id="contents">
-                    <li>
+                    <li :style="navId != 1?'display:none' : ''">
                         <img class="usericon" src="../assets/user1.jpg" alt="">
                         <span class="username">doyoudo</span>
                         <span class="releaseTime">14小时前</span>
@@ -80,7 +80,7 @@
                             <span>点赞 1720</span>
                         </div>
                     </li>
-                    <li>
+                    <li :style="navId != 1?'display:none' : ''">
                         <img class="usericon" src="../assets/user3.jpg" alt="">
                         <span class="username">是落拓呀</span>
                         <span class="releaseTime">17小时前</span>
@@ -100,7 +100,7 @@
                             <span>点赞 772</span>
                         </div>
                     </li>
-                    <li>
+                    <li :style="navId != 1?'display:none' : ''">
                         <img class="usericon" src="../assets/user2.jpg" alt="">
                         <span class="username">fly51fly</span>
                         <span class="releaseTime">23小时前</span>
@@ -121,7 +121,7 @@
                             <span>点赞 8</span>
                         </div>
                     </li>
-                    <li>
+                    <li :style="navId != 1?'display:none' : ''">
                         <img class="usericon" src="../assets/user4.jpg" alt="">
                         <span class="username">塔塔丁小瓜</span>
                         <span class="releaseTime">1天前</span>
@@ -141,7 +141,7 @@
                             <span>点赞 62</span>
                         </div>
                     </li>
-                    <li id="noData">
+                    <li id="noData" :style="navId != 1?'display:block' : ''">
                         <img src="../assets/nodata02.png" alt="">
                     </li>
                 </ul>
@@ -176,7 +176,12 @@
     import biliNav from '../components/bilinav';
 export default {
     name:'Fourm',
-    components:{biliNav}
+    components:{biliNav},
+    data() {
+        return {
+            navId:1
+        }
+    },
 }
 </script>
 <style scoped>
@@ -190,6 +195,7 @@ export default {
     }
     .forum{
         width: 100%;
+        min-height: 100vh;
         position: relative;
         background: url(../assets/bg.png) no-repeat fixed;
         min-width: 1198px;
@@ -342,6 +348,7 @@ export default {
         line-height: 22px;
         border-radius: 4px;
         word-break: break-all;
+        resize: none;
     }
     textarea::-webkit-input-placeholder {
         font-family: Helvetica Neue, Helvetica, Arial, Microsoft Yahei, Hiragino Sans GB, Heiti SC, WenQuanYi Micro Hei, sans-serif;
