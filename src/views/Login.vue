@@ -23,22 +23,23 @@
                     <span :class="login ? 'selected' : ''" @click="login = true">密码登录</span>
                     <span :class="!login ? 'selected' : ''" @click="login = false">短信登陆</span>
                     <div class="box" :class="login ? 'selected-box' : ''">
-                        <input type="text" placeholder="你的手机号/邮箱">
-                        <input type="text" placeholder="密码">
+                        <input type="text" placeholder="用户名" v-model="username">
+                        <input type="password" placeholder="密码" v-model="pwd">
                     </div>
                     <div class="box" :class="!login ? 'selected-box' : ''">
                         <input type="text" placeholder="填写常用手机号">
                         <input type="text" placeholder="请输入短信验证码">
                         <button>获取验证码</button>
                     </div>
+                    <p :class="!loginErr ? 'display:none' : 'display:block'">{{loginErr}}</p>
                     <div id="remember">
                         <input type="radio" checked="checked" >记住我
                         <span>不是自己电脑不要勾选此项</span>
                         <span>无法验证？  忘记密码？</span>
                     </div>
                     <div id="submit">
-                        <router-link to="/"><a href="#"><input type="submit" value="登陆" ></a></router-link>
-                        <input type="submit" value="注册">
+                        <a  @click="userLogin">登陆</a>
+                        <a >注册</a>
                         <p>微博账号登陆   QQ账号登陆</p>
                     </div>
                 </div>
@@ -57,9 +58,31 @@
         components:{biliNav,bilifooter},
         data() {
             return {
-                login: true
+                login: true,
+                username: '',
+                pwd: '',
+                loginErr: ''
             }
         },
+        methods:{
+            userLogin() {
+                this.$axios.post('/users/login',{username:this.username,pwd:this.pwd}).then(res => {
+                    console.log(res)
+                    if(res.data.code == 200){
+                        localStorage.setItem('token',res.data.token);
+                        this.$store.commit('getUserInfo',{userImgurl:res.data.userImgurl,username:res.data.username});
+                        this.$router.push('/');
+                    }else{
+                        this.loginErr = res.data.message;
+                    }
+                })
+            },
+            // userSign() {
+            //     this.$axios.post('/users/sign',{username:this.username,pwd:this.pwd}).then(res => {
+            //         console.log(res);
+            //     })
+            // }
+        }
     }
 
 </script>
@@ -148,7 +171,10 @@
         width: 440px;
         padding-left: 50px;
         padding-top: 32px;
-
+    }
+    main #login>p{
+        font-size: 14px;
+        color: rgb(240, 85, 85);
     }
     main #login>span{
         padding: 0 15px 12px 0;
@@ -202,7 +228,7 @@
         font-size: 12px;
         margin-top: 20px;
     }
-    main #submit input{
+    main #submit a{
         display: inline-block;
         height: 36px;
         border-radius: 2px;
@@ -213,8 +239,6 @@
         cursor: pointer;
         transition: all .3s;
         margin:20px 12px;
-    }
-    main #submit a>input{
         border: 1px solid #0381aa;
         color: #fff;
         background-color: #00a7de;
