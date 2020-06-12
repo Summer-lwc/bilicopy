@@ -64,13 +64,22 @@
                 loginErr: ''
             }
         },
+        beforeEnter: (to, from, next) => {
+            if(to == '/login'){
+                console.log(1);
+                localStorage.removeItem('token');
+                console.log(2);
+            }
+            next()
+        },
         methods:{
             userLogin() {
                 this.$axios.post('/users/login',{username:this.username,pwd:this.pwd}).then(res => {
-                    console.log(res)
                     if(res.data.code == 200){
                         localStorage.setItem('token',res.data.token);
-                        this.$store.commit('getUserInfo',{userImgurl:res.data.userImgurl,username:res.data.username});
+                        // sessionStorage.getItem("username",res.data.username);
+                        // sessionStorage.getItem("userImgurl",res.data.userImgurl);
+                        this.$store.commit('getUserInfo',res.data);
                         this.$router.push('/');
                     }else{
                         this.loginErr = res.data.message;

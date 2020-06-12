@@ -34,7 +34,10 @@ Vue.use(VueRouter)
   {
     path: '/search',
     name: 'Search',
-    component: Search
+    component: Search,
+    meta:{
+      keepAlive:true
+    }
   },
   {
     path: '/video',

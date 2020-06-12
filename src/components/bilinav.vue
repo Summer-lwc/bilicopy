@@ -22,7 +22,7 @@
             <el-button slot="append" icon="el-icon-search" @click="search(input3)"></el-button>
         </el-input>
         <ul>
-            <li><img  id="userImg" src="../assets/akari.jpg" alt="头像"></li>
+            <li><img  id="userImg" :src="isLogin ? 'http://qbnqzf5cb.bkt.clouddn.com/image/'+ this.$store.state.userImgurl +'.jpg' : require('../assets/akari.jpg')" alt="头像"></li>
             <li v-if="isLogin"><a href="#">大会员</a></li>
             <li v-if="isLogin"><a href="#">消息</a></li>
             <li v-if="isLogin"><a href="#">动态</a></li>
@@ -34,28 +34,33 @@
             <li v-if="!isLogin"><router-link to="/login"><a href="#">注册</a></router-link></li>
             <li><el-button  id="upload">投稿</el-button></li>
         </ul>
+        <slot name="foot"></slot>
     </div>
 </template>
 
 <script>
+
     export default {
         name:'bilinav',
         data() {
             return {
                 input3:'',
-                isLogin: false
+                isLogin: this.$store.state.isLogin,
             }
         },
+
+        mounted(){
+            this.islogin();
+        },
         methods:{
+            islogin(){
+                const token = localStorage.getItem('token');
+                this.isLogin = token ? true : false;
+            },
             search(keyword){
-                console.log(keyword);
-                if(keyword){
-                    this.$router.push({
-                        path: '/search',
-                    query: {
-                        keyword
-                    }});
-                }
+                this.$router.push({name:'Search',params:{
+                    keyword: keyword,
+                }})
             }
         }
     }

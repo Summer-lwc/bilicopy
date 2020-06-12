@@ -6,9 +6,9 @@
         <main>
             <div class="left-content">
                 <div class="title">
-                    <h4>2020的第一个日出</h4>
+                    <h4>{{videoInfo.title}}</h4>
                     <div class="video-data">
-                        <span class="a-crumbs">生活 > 日常</span>
+                        <span class="a-crumbs">{{videoInfo.classify}}</span>
                         <span class="time">2020-01-01 22:36:57</span>
                         <span class="play-data"> 5播放 · 0弹幕</span>
                     </div>
@@ -30,8 +30,8 @@
                     <span>稿件投诉</span>
                 </div>
                 <div class="des">
-                    <p>向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~向世界安利flumpool!~</p>
-                    <span>展开更多</span>
+                    <p>{{videoInfo.des}}</p>
+                    <span v-show="videoInfo.des.split('\r').length > 5">展开更多</span>
                 </div>
                 <div class="addTags">
                     <el-tag
@@ -70,8 +70,8 @@
                         <li>
                             <img src="../assets/user.jpg" alt="">
                             <div>
-                                <h5>暖色的梅子酱</h5>
-                                <p>我已经对这个live中毒了…满脑子都是这个live鲜艳色彩的画面 这首歌轻快愉悦的旋律 和这个穿白踢的青年的笑颜QAQ</p>
+                                <h5>超超是小超人5</h5>
+                                <p>这是一条评论。。就不存数据库了，，太多了</p>
                                 <span>来自IOS客户端</span>
                                 <span>2017-02-12 03：27</span>
                                 <span>👍</span>
@@ -100,7 +100,7 @@
                     <div>相关推荐</div>
                     <ul>
                         <li>
-                            <img src="../assets/ad1.jpg" alt="">
+                            <img src="../assets/cover32.jpg" alt="">
                             <div class="video-data">
                                 <h5>【flumpool】【flumpool】【flumpool】【flumpool】【flumpool】【flumpool】【flumpool】【flumpool】【flumpool】</h5>
                                 <p>超超是小超人</p>
@@ -121,11 +121,12 @@
         components:{biliNav},
         data() {
             return {
-                dynamicTags: ['延时摄影', '自制', '日出'],
+                dynamicTags: [],
                 inputVisible: false,
                 inputValue: '',
                 titleTags: true,
                 interact: [0,4,0,0],
+                videoInfo: this.$route.query.item,
                 playerOptions: {
                     //播放速度
                     playbackRates: [0.5, 1.0, 1.5, 2.0], 
@@ -146,10 +147,10 @@
                         //类型
                         type: "video/mp4",
                         //url地址
-                        src: 'http://qbnqzf5cb.bkt.clouddn.com/video1.mp4' 
+                        src: '' 
                     }],
                     //你的封面地址
-                    poster: 'http://qbnqzf5cb.bkt.clouddn.com/image/cover1.jpg', 
+                    poster: '', 
                      //允许覆盖Video.js无法播放媒体源时显示的默认信息。
                     notSupportedMessage: '此视频暂无法播放，请稍后再试',
                     controlBar: {
@@ -164,7 +165,9 @@
             }
         },
         mounted() { 
-
+            this.playerOptions.sources[0].src = 'http://qbnqzf5cb.bkt.clouddn.com/'+this.videoInfo.videourl +'.mp4';
+            this.playerOptions.poster = 'http://qbnqzf5cb.bkt.clouddn.com/image/'+this.videoInfo.cover+'.jpg';
+            this.dynamicTags = this.$route.query.item.tag.split(",");
         },
         methods: {
             showInput() {
@@ -283,19 +286,21 @@
                 color: #212121;
                 letter-spacing: 0;
                 line-height: 18px;
-                height: 80px;
+                // min-height: 20px;
+                // display: block;
+                // height: 80px;
                 width: 573px;
                 margin: 16px 0;
                 p{
                     margin-bottom: 10px;
-                    height: 50px;
+                    max-height: 38px;
                     overflow: hidden;
-
                 }
                 span:hover{
                     color: #00a1d6;
                     cursor: pointer;
                 }
+
             }
             .addTags{
                 padding-bottom: 16px;

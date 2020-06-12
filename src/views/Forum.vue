@@ -6,8 +6,8 @@
         <div id="main" class='clearfix'>
             <aside>
                 <div id="info">
-                    <img src="../assets/user.jpg" alt="">
-                    <span>超超是小超人5</span>
+                    <img :src="'http://qbnqzf5cb.bkt.clouddn.com/image/'+this.$store.state.userImgurl+'.jpg'" alt="">
+                    <span>{{this.$store.state.username}}</span>
                     <ul>
                         <li>
                             <p>29</p>

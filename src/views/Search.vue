@@ -6,8 +6,8 @@
         <main>
             <div class="searchBar">
                 <img src="../assets/search_logo.png" alt="">
-                <input id="search-keyword" type="text" maxlength="100" autocomplete="off" :v-model="input" :placeholder="input">
-                <button class="searchBtn"><i class="el-icon-search"></i>搜索</button>
+                <input id="search-keyword" type="text" maxlength="100" autocomplete="off" v-model="input" :placeholder="input">
+                <button class="searchBtn" @click="search()"><i class="el-icon-search"></i>搜索</button>
             </div>
             <menu>
                 <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
@@ -39,12 +39,12 @@
                     </div>
                 </div>
                 <ul :class="listStyle">
-                    <li @click="videoPlayer(id)">
-                        <img src="../assets/search_logo.png" alt="">
+                    <li @click="videoPlayer(item)" v-for="(item,key) in videoList" :key="key">
+                        <img :src="'http://qbnqzf5cb.bkt.clouddn.com/image/'+ item.cover +'.jpg'" alt="">
                         <span class="time">01:55</span>
                         <div class="details">
-                            <h5 class="title"><span class="label">音乐现场</span>flu mpoo llum poolflu mpool flumpool flu mpo ol flump ool flu mpool flumpool flumpool flumpool flu mpoo lflum poolflu mpool</h5>
-                            <p>flumpoolflumpool flumpoolflumpool flumpool flumpool flumpool flumpool flumpool flumpoo lflumpoolflum pool flump oolflumpo olmpool flumpool flumpool flumpool flumpool flumpool flumpoolflumpool</p>
+                            <h5 class="title"><span class="label">音乐现场</span>{{item.title}}</h5>
+                            <p>{{item.des}}</p>
                             <div class="tags">
                                 <span class="viewCounts"><i class="el-icon-video-camera"></i>123</span>
                                 <span class="comments"><i class="el-icon-chat-line-square"></i>123</span>
@@ -57,7 +57,7 @@
                 <el-pagination
                     background
                     layout="prev, pager, next"
-                    :total="1000">
+                    :total="videoListNum">
                 </el-pagination>
             </menu>
         </main>
@@ -77,11 +77,35 @@
                 activeitems: [0,0,0],
                 sortClass: 'sort',
                 listStyle:'grid',
-                input: this.$route.query.keyword,
+                input: this.$route.params.keyword,
+                videoList: this.$store.state.videoList,
+                videoListNum: this.$store.state.videoList.length,
                 lists: [['综合排序','点击最多','最新发布','最多弹幕','最多收藏'],['全部时长','10分钟以下','10~30分钟','30-60分钟','60分钟以上'],['全部分区','动画','番剧','国创','音乐','舞蹈','游戏','知识','数码','生活','鬼畜','时尚','资讯','娱乐','影视','纪录片','电影','电视剧','收起']],
             }
         },
+        mounted(){
+            this.search();
+        },
+        activated(){
+            console.log("哎呀看见我了")
+            console.log("----------activated--------")
+        },
+          deactivated(){
+            console.log("讨厌！！你又走了")
+            console.log("----------deactivated--------")
+        },
         methods:{
+            search(){
+                var keyword = this.input;
+                this.$axios.get('/video/search',{params:{keyword}}).then(res => {
+                    this.$store.commit('getvideoList', res.data.list);
+                    this.videoList = res.data.list;
+                    this.videoListNum = res.data.list.length;
+                    this.$router.push('/search',{params:{
+                        query: keyword
+                    }})
+                });
+            },
             handleSelect(key, keyPath) {
                 console.log(key, keyPath);
             },
@@ -102,8 +126,8 @@
             changeListStyle(str){
                 this.listStyle = str;
             },
-            videoPlayer(id){
-                this.$router.push({path: '/video', query:{id}});
+            videoPlayer(item){
+                this.$router.push({path: '/video', query:{item}});
             }
         }
     }
@@ -241,16 +265,19 @@
                     display: flex;
                     flex-wrap: wrap;
                     li{
-                        margin: 20px 32px 0 0;
+                        margin: 20px 20px 0 0;
                         width: 170px;
                         height: 210px;
                         border: 1px solid #e5e9ef;
-                        border-radius: 4px;
+                        border-radius: 5px;
                         position: relative;
+                        &:nth-of-type(5n){
+                            margin-right: 0px;
+                        }
                         img{
-                            width: 168px;
+                            width: 170px;
                             height: 100px;
-                            border-radius: 10px;
+                            border-radius: 5px;
                         }
                         .details{
                             h5>span , p, .tags>.comments{
@@ -269,6 +296,8 @@
                             }
                         }
                         .tags{
+                            position: absolute;
+                            top: 154px;
                             display: flex;
                             justify-content: space-between;
                             padding: 8px 10px;
