@@ -38,17 +38,17 @@
                         <i :class="['el-icon-notebook-2', listStyle=='list' ? 'active' :'']" @click="changeListStyle('list')" ></i>
                     </div>
                 </div>
-                <ul :class="listStyle">
+                <ul :class="listStyle" v-loading="loading">
                     <li @click="videoPlayer(item)" v-for="(item,key) in videoList" :key="key">
                         <img :src="'http://qbnqzf5cb.bkt.clouddn.com/image/'+ item.cover +'.jpg'" alt="">
                         <span class="time">01:55</span>
                         <div class="details">
-                            <h5 class="title"><span class="label">音乐现场</span>{{item.title}}</h5>
+                            <h5 class="title"><span class="label">{{item.classify.split(">")[1]}}</span>{{item.title}}</h5>
                             <p>{{item.des}}</p>
                             <div class="tags">
                                 <span class="viewCounts"><i class="el-icon-video-camera"></i>123</span>
                                 <span class="comments"><i class="el-icon-chat-line-square"></i>123</span>
-                                <span class="date"><i class="el-icon-time"></i>2020-06-09</span>
+                                <span class="date"><i class="el-icon-time"></i>{{item.uploadtime | formateDate}}</span>
                                 <span class="upName"><i class="el-icon-user"></i>123</span>
                             </div>
                         </div>
@@ -57,7 +57,12 @@
                 <el-pagination
                     background
                     layout="prev, pager, next"
-                    :total="videoListNum">
+                    @current-change="handleCurrentChange"
+                    @prev-click='prevPage'
+                    @next-click='nextPage'
+                    :total="videoListNum"
+                    :page-size="listStyle=='grid' ? 15 : 5"
+                    :current-page="currentPage">
                 </el-pagination>
             </menu>
         </main>
@@ -77,34 +82,51 @@
                 activeitems: [0,0,0],
                 sortClass: 'sort',
                 listStyle:'grid',
-                input: this.$route.params.keyword,
+                loading:true,
+                input: this.$store.state.keyword,
                 videoList: this.$store.state.videoList,
                 videoListNum: this.$store.state.videoList.length,
+                currentPage: 1,
+                pageSize: 15,
                 lists: [['综合排序','点击最多','最新发布','最多弹幕','最多收藏'],['全部时长','10分钟以下','10~30分钟','30-60分钟','60分钟以上'],['全部分区','动画','番剧','国创','音乐','舞蹈','游戏','知识','数码','生活','鬼畜','时尚','资讯','娱乐','影视','纪录片','电影','电视剧','收起']],
             }
         },
+        filters: {
+            formateDate: function (datetime) {
+                function addDateZero(num) {
+                        return (num < 10 ? "0" + num : num);
+                    }
+                let d = new Date(datetime);
+                let formatdatetime = d.getFullYear() + '-' + addDateZero(d.getMonth() + 1) + '-' + addDateZero(d.getDate());
+                return formatdatetime;
+            }
+        },
         mounted(){
+            
             this.search();
         },
-        activated(){
-            console.log("哎呀看见我了")
-            console.log("----------activated--------")
-        },
-          deactivated(){
-            console.log("讨厌！！你又走了")
-            console.log("----------deactivated--------")
-        },
+        // activated(){
+        //     console.log("----------activated--------")
+        // },
+        //   deactivated(){
+        //     console.log("----------deactivated--------")
+        // },
         methods:{
             search(){
+                this.loading = true;
                 var keyword = this.input;
-                this.$axios.get('/video/search',{params:{keyword}}).then(res => {
-                    this.$store.commit('getvideoList', res.data.list);
-                    this.videoList = res.data.list;
-                    this.videoListNum = res.data.list.length;
+                this.$store.commit('keyword',this.input);
+                var currentPage = this.currentPage - 1;
+                this.$axios.get('/video/search',{params:{keyword:keyword,currentPage:currentPage,pageSize:this.pageSize}}).then(res => {
+                    this.$store.commit('getvideoList', res.data.videoList);
+                    this.videoList = res.data.videoList;
+                    this.videoListNum = res.data.totalPages;
                     this.$router.push('/search',{params:{
                         query: keyword
                     }})
+                    this.loading = false;
                 });
+                
             },
             handleSelect(key, keyPath) {
                 console.log(key, keyPath);
@@ -125,9 +147,28 @@
             },
             changeListStyle(str){
                 this.listStyle = str;
+                this.pageSize = this.listStyle == 'grid' ? 15 : 5;
+                console.log(Math.ceil(this.videoListNum/this.pageSize - 1));
+                console.log(this.currentPage);
+                this.currentPage = Math.min(Math.ceil(this.videoListNum/this.pageSize),this.currentPage);
+                console.log(this.currentPage);
+                this.search()
             },
             videoPlayer(item){
-                this.$router.push({path: '/video', query:{item}});
+                this.$store.commit('getVideoItem',item);
+                this.$router.push({path: '/video', query:{videoList: item}});
+            },
+            handleCurrentChange(val){
+                this.currentPage = val;
+                this.search();
+            },
+            prevPage(){
+                this.currentPage--;
+                this.search();
+            },
+            nextPage(){
+                this.currentPage++;
+                this.search();
             }
         }
     }

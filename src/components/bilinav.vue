@@ -4,7 +4,7 @@
             <li>
                 <slot name="logo"></slot>
             </li>
-            <li><a href="#">主站</a></li>
+            <li><router-link to="/"><a href="#">主站</a></router-link></li>
             <li><a href="#">游戏中心</a></li>
             <li><a href="#">直播</a></li>
             <li><a href="#">会员购</a></li>
@@ -22,7 +22,16 @@
             <el-button slot="append" icon="el-icon-search" @click="search(input3)"></el-button>
         </el-input>
         <ul>
-            <li><img  id="userImg" :src="isLogin ? 'http://qbnqzf5cb.bkt.clouddn.com/image/'+ this.$store.state.userImgurl +'.jpg' : require('../assets/akari.jpg')" alt="头像"></li>
+            <li>
+                <el-popover
+                    placement="bottom"
+                    width="50"
+                    trigger="hover"
+                    :disabled="!isLogin">
+                    <router-link to='/login'><div>退出</div></router-link>
+                    <img id="userImg" slot="reference" :src="isLogin ? 'http://qbnqzf5cb.bkt.clouddn.com/image/'+ this.$store.state.userImgurl +'.jpg' : require('../assets/akari.jpg')" alt="头像">
+                </el-popover>
+            </li>
             <li v-if="isLogin"><a href="#">大会员</a></li>
             <li v-if="isLogin"><a href="#">消息</a></li>
             <li v-if="isLogin"><a href="#">动态</a></li>
@@ -58,6 +67,7 @@
                 this.isLogin = token ? true : false;
             },
             search(keyword){
+                this.$store.commit('keyword',keyword);
                 this.$router.push({name:'Search',params:{
                     keyword: keyword,
                 }})

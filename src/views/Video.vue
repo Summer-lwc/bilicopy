@@ -9,7 +9,7 @@
                     <h4>{{videoInfo.title}}</h4>
                     <div class="video-data">
                         <span class="a-crumbs">{{videoInfo.classify}}</span>
-                        <span class="time">2020-01-01 22:36:57</span>
+                        <span class="time">{{videoInfo.uploadtime | formateDate}}</span>
                         <span class="play-data"> 5播放 · 0弹幕</span>
                     </div>
                 </div>
@@ -126,7 +126,7 @@
                 inputValue: '',
                 titleTags: true,
                 interact: [0,4,0,0],
-                videoInfo: this.$route.query.item,
+                videoInfo: this.$store.state.videoItem,
                 playerOptions: {
                     //播放速度
                     playbackRates: [0.5, 1.0, 1.5, 2.0], 
@@ -164,10 +164,20 @@
  
             }
         },
+        filters: {
+            formateDate: function (datetime) {
+                function addDateZero(num) {
+                        return (num < 10 ? "0" + num : num);
+                    }
+                let d = new Date(datetime);
+                let formatdatetime = d.getFullYear() + '-' + addDateZero(d.getMonth() + 1) + '-' + addDateZero(d.getDate()) + ' ' + addDateZero(d.getHours()) + ':' + addDateZero(d.getMinutes()) + ':' + addDateZero(d.getSeconds());
+                return formatdatetime;
+            }
+        },
         mounted() { 
             this.playerOptions.sources[0].src = 'http://qbnqzf5cb.bkt.clouddn.com/'+this.videoInfo.videourl +'.mp4';
             this.playerOptions.poster = 'http://qbnqzf5cb.bkt.clouddn.com/image/'+this.videoInfo.cover+'.jpg';
-            this.dynamicTags = this.$route.query.item.tag.split(",");
+            this.dynamicTags = this.videoInfo.tag.split(",");
         },
         methods: {
             showInput() {

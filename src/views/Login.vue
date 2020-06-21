@@ -38,8 +38,8 @@
                         <span>无法验证？  忘记密码？</span>
                     </div>
                     <div id="submit">
-                        <a  @click="userLogin">登陆</a>
-                        <a >注册</a>
+                        <a @click="userLogin">登陆</a>
+                        <a @click="userSign">注册</a>
                         <p>微博账号登陆   QQ账号登陆</p>
                     </div>
                 </div>
@@ -64,21 +64,11 @@
                 loginErr: ''
             }
         },
-        beforeEnter: (to, from, next) => {
-            if(to == '/login'){
-                console.log(1);
-                localStorage.removeItem('token');
-                console.log(2);
-            }
-            next()
-        },
         methods:{
             userLogin() {
                 this.$axios.post('/users/login',{username:this.username,pwd:this.pwd}).then(res => {
                     if(res.data.code == 200){
                         localStorage.setItem('token',res.data.token);
-                        // sessionStorage.getItem("username",res.data.username);
-                        // sessionStorage.getItem("userImgurl",res.data.userImgurl);
                         this.$store.commit('getUserInfo',res.data);
                         this.$router.push('/');
                     }else{
@@ -86,11 +76,17 @@
                     }
                 })
             },
-            // userSign() {
-            //     this.$axios.post('/users/sign',{username:this.username,pwd:this.pwd}).then(res => {
-            //         console.log(res);
-            //     })
-            // }
+            userSign() {
+                this.$axios.post('/users/sign',{username:this.username,pwd:this.pwd}).then(res => {
+                    if(res.data.code == 200){
+                        localStorage.setItem('token',res.data.token);
+                        this.$store.commit('getUserInfo',res.data);
+                        this.$router.push('/');
+                    }else{
+                        this.loginErr = res.data.message;
+                    }
+                })
+            }
         }
     }
 

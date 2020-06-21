@@ -24,7 +24,13 @@ Vue.use(VueRouter)
   {
     path: '/login',
     name: 'Login',
-    component: Login
+    component: Login,
+    beforeEnter: (to, from, next) => {
+      if(to.path == '/login'){
+          localStorage.removeItem('token');
+      }
+      next()
+    },
   },
   {
     path: '/rank',
@@ -35,9 +41,9 @@ Vue.use(VueRouter)
     path: '/search',
     name: 'Search',
     component: Search,
-    meta:{
-      keepAlive:true
-    }
+    // meta:{
+    //   keepAlive:true
+    // }
   },
   {
     path: '/video',

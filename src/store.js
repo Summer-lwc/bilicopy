@@ -10,7 +10,9 @@ export default new Vuex.Store({
       isLogin: false,
       userImgurl:'',
       username:'',
-      videoList: []
+      videoList: [],
+      keyword:'',
+      videoItem:{}
     },
     mutations: {
       getUserInfo (state,userInfo) {
@@ -19,6 +21,12 @@ export default new Vuex.Store({
       },
       getvideoList(state, videoList){
         state.videoList = videoList
+      },
+      keyword(state, keyword){
+        state.keyword = keyword;
+      },
+      getVideoItem(state, videoItem){
+        state.videoItem = videoItem;
       }
     },
     plugins: [createPersistedState()]
