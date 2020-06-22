@@ -6,7 +6,7 @@
         <main>
             <div class="searchBar">
                 <img src="../assets/search_logo.png" alt="">
-                <input id="search-keyword" type="text" maxlength="100" autocomplete="off" v-model="input" :placeholder="input">
+                <input id="search-keyword" type="text" maxlength="100" autocomplete="off" v-model="input" :placeholder="input" @keyup.enter="search()">
                 <button class="searchBtn" @click="search()"><i class="el-icon-search"></i>搜索</button>
             </div>
             <menu>

@@ -18,7 +18,7 @@
                 </div>
             </li>
         </ul>
-        <el-input placeholder="累了就看一下鬼畜" v-model="input3" class="input-with-select"> 
+        <el-input placeholder="累了就看一下鬼畜" v-model="input3" class="input-with-select"  @keyup.enter.native="search(input3)"> 
             <el-button slot="append" icon="el-icon-search" @click="search(input3)"></el-button>
         </el-input>
         <ul>

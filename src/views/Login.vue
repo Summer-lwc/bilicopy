@@ -77,16 +77,21 @@
                 })
             },
             userSign() {
-                this.$axios.post('/users/sign',{username:this.username,pwd:this.pwd}).then(res => {
-                    if(res.code == 200){
-                        localStorage.setItem('token',res.token);
-                        this.$store.commit('getUserInfo',res);
-                        this.loginErr = '注册成功请登录';
-                        this.$router.push('/');
-                    }else{
-                        this.loginErr = res.message;
-                    }
-                })
+                 this.loginErr = '';
+                if(this.username && this.pwd){
+                    this.$axios.post('/users/sign',{username:this.username,pwd:this.pwd}).then(res => {
+                        if(res.code == 200){
+                            localStorage.setItem('token',res.token);
+                            this.$store.commit('getUserInfo',res);
+                            this.loginErr = '注册成功请登录';
+                            this.$router.push('/');
+                        }else{
+                            this.loginErr = res.message;
+                        }
+                    })
+                }else{
+                    this.loginErr = '请输入用户名/密码';
+                }
             }
         }
     }
