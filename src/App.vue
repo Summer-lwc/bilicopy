@@ -9,7 +9,7 @@ export default {
   name:'app',
   data() {
     return {
-      btnFlag:true
+      btnFlag: false
     }
   },
   created () {
@@ -41,7 +41,7 @@ export default {
       let that = this
       let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
       that.scrollTop = scrollTop
-      if (that.scrollTop > 300) {
+      if (that.scrollTop > 1000) {
         that.btnFlag = true
       } else {
         that.btnFlag = false

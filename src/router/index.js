@@ -19,7 +19,18 @@ Vue.use(VueRouter)
   {
     path: '/forum',
     name: 'Forum',
-    component: Forum
+    component: Forum,
+    beforeEnter: (to, from, next) => {
+      var token = localStorage.getItem('token');
+      if(to.path == '/forum' && !token){
+          alert('请登录！');
+          next({
+            path:'/login'
+          });
+      }else{
+          next();
+      }
+  }
   },
   {
     path: '/login',

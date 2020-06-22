@@ -105,12 +105,6 @@
             
             this.search();
         },
-        // activated(){
-        //     console.log("----------activated--------")
-        // },
-        //   deactivated(){
-        //     console.log("----------deactivated--------")
-        // },
         methods:{
             search(){
                 this.loading = true;
@@ -118,9 +112,9 @@
                 this.$store.commit('keyword',this.input);
                 var currentPage = this.currentPage - 1;
                 this.$axios.get('/video/search',{params:{keyword:keyword,currentPage:currentPage,pageSize:this.pageSize}}).then(res => {
-                    this.$store.commit('getvideoList', res.data.videoList);
-                    this.videoList = res.data.videoList;
-                    this.videoListNum = res.data.totalPages;
+                    this.$store.commit('getvideoList', res.videoList);
+                    this.videoList = res.videoList;
+                    this.videoListNum = res.totalPages;
                     this.$router.push('/search',{params:{
                         query: keyword
                     }})
@@ -148,10 +142,7 @@
             changeListStyle(str){
                 this.listStyle = str;
                 this.pageSize = this.listStyle == 'grid' ? 15 : 5;
-                console.log(Math.ceil(this.videoListNum/this.pageSize - 1));
-                console.log(this.currentPage);
                 this.currentPage = Math.min(Math.ceil(this.videoListNum/this.pageSize),this.currentPage);
-                console.log(this.currentPage);
                 this.search()
             },
             videoPlayer(item){

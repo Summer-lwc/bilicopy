@@ -67,23 +67,24 @@
         methods:{
             userLogin() {
                 this.$axios.post('/users/login',{username:this.username,pwd:this.pwd}).then(res => {
-                    if(res.data.code == 200){
-                        localStorage.setItem('token',res.data.token);
-                        this.$store.commit('getUserInfo',res.data);
+                    if(res.code == 200){
+                        localStorage.setItem('token',res.token);
+                        this.$store.commit('getUserInfo',res);
                         this.$router.push('/');
                     }else{
-                        this.loginErr = res.data.message;
+                        this.loginErr = res.message;
                     }
                 })
             },
             userSign() {
                 this.$axios.post('/users/sign',{username:this.username,pwd:this.pwd}).then(res => {
-                    if(res.data.code == 200){
-                        localStorage.setItem('token',res.data.token);
-                        this.$store.commit('getUserInfo',res.data);
+                    if(res.code == 200){
+                        localStorage.setItem('token',res.token);
+                        this.$store.commit('getUserInfo',res);
+                        this.loginErr = '注册成功请登录';
                         this.$router.push('/');
                     }else{
-                        this.loginErr = res.data.message;
+                        this.loginErr = res.message;
                     }
                 })
             }

@@ -12,26 +12,26 @@ import 'video.js/dist/video-js.css';
 
 Vue.use(VueAxios, axios);
 Vue.prototype.$axios = axios;
-axios.defaults.baseURL = 'http://localhost:3000';
-// axios.interceptors.request.use(
-//   config => {
-//     const token = sessionStorage.getItem('token')
-//     if (token ) { 
-//       config.headers.authorization = token;
-//     }
-//     return config;
-//   },
-//   err => {
-//     return Promise.reject(err);
-//   });
-// axios.interceptors.response.use(
-//   response => {
-//     if(response.state ==200){
-//       response = response.data;
-//     }
-//     return response;
-//   }
-// )
+axios.defaults.baseURL = 'http://47.100.38.187:3000';
+axios.interceptors.request.use(
+  config => {
+    const token = localStorage.getItem('token')
+    if (token) { 
+      config.headers.authorization = token;
+    }
+    return config;
+  },
+  err => {
+    return Promise.reject(err);
+  });
+axios.interceptors.response.use(
+  response => {
+    if(response.status ==200){
+      response = response.data;
+    }
+    return response;
+  }
+)
 Vue.use(ElementUI);
 
 Vue.use(VideoPlayer);

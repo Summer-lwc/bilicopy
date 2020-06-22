@@ -30,8 +30,8 @@
                     <span>稿件投诉</span>
                 </div>
                 <div class="des">
-                    <p>{{videoInfo.des}}</p>
-                    <span v-show="videoInfo.des.split('\r').length > 5">展开更多</span>
+                    <p :class="{'nomore':nomore}">{{videoInfo.des}}</p>
+                    <span v-show="videoInfo.des.split('\r').length > 5"  @click="more">展开更多</span>
                 </div>
                 <div class="addTags">
                     <el-tag
@@ -122,6 +122,7 @@
         data() {
             return {
                 dynamicTags: [],
+                nomore: true,
                 inputVisible: false,
                 inputValue: '',
                 titleTags: true,
@@ -193,6 +194,9 @@
                 }
                 this.inputVisible = false;
                 this.inputValue = '';
+            },
+            more(){
+                this.nomore=!this.nomore;
             }
         }
     }
@@ -303,9 +307,12 @@
                 margin: 16px 0;
                 p{
                     margin-bottom: 10px;
-                    max-height: 38px;
                     overflow: hidden;
+                    &.nomore{
+                        max-height: 38px;
+                    }
                 }
+
                 span:hover{
                     color: #00a1d6;
                     cursor: pointer;

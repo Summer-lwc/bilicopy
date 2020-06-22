@@ -179,9 +179,11 @@ export default {
     components:{biliNav},
     data() {
         return {
-            navId:1
+            navId:1,
+            isLogin:this.$store.state.isLogin
         }
     },
+
 }
 </script>
 <style scoped>
